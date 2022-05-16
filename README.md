@@ -1,4 +1,5 @@
 # contact_book
-- Datenbank für Kunden
-- Kundennummer generieren
-- Daten in PDF/Word Kopf ableiten
+
+Goal of this project:
+- local database for customers
+- export customer data to pdf or word

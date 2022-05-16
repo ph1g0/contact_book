@@ -7,8 +7,8 @@ Created on Sat May 14 16:45:54 2022
 
 """This module provides a database connection"""
 
-from PySide2.QtWidgets import QMessageBox
-from PySide2.QtSql import QSqlDatabase, QSqlQuery
+from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 
 def _createContactsTable():
     """Create the contacts table in the database"""

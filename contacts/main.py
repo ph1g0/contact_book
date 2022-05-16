@@ -10,7 +10,7 @@ Created on Wed May 11 17:24:15 2022
 
 import sys
 
-from PySide2.QtWidgets import QApplication
+from PyQt5.QtWidgets import QApplication
 
 from .database import createConnection
 from .views import Window
@@ -29,4 +29,4 @@ def main():
     win.show()
     
     # Run the event loop
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

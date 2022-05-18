@@ -32,7 +32,7 @@ class Window(QMainWindow):
         """Initializer"""
         super().__init__(parent)
         self.setWindowTitle("Contacts")
-        self.resize(550, 250)
+        self.resize(1000, 800)
         self.centralWidget = QWidget()
         self.setCentralWidget(self.centralWidget)
         self.layout = QHBoxLayout()
@@ -51,8 +51,10 @@ class Window(QMainWindow):
         # Create buttons
         self.addButton = QPushButton("Add...")
         self.addButton.clicked.connect(self.openAddDialog)
+        
         self.deleteButton = QPushButton("Delete")
         self.deleteButton.clicked.connect(self.deleteContact)
+        
         self.clearAllButton = QPushButton("Clear All")
         self.clearAllButton.clicked.connect(self.clearContacts)
 
@@ -118,15 +120,25 @@ class AddDialog(QDialog):
         # Create line edits for data fields
         self.nameField = QLineEdit()
         self.nameField.setObjectName("Name")
-        self.jobField = QLineEdit()
-        self.jobField.setObjectName("Job")
+        
+        self.streetField = QLineEdit()
+        self.streetField.setObjectName("Street")
+        
+        self.cityField = QLineEdit()
+        self.cityField.setObjectName("City")
+        
+        self.phoneField = QLineEdit()
+        self.phoneField.setObjectName("Phone")
+        
         self.emailField = QLineEdit()
         self.emailField.setObjectName("Email")
 
         # Lay out the data fields
         layout = QFormLayout()
         layout.addRow("Name:", self.nameField)
-        layout.addRow("Job:", self.jobField)
+        layout.addRow("Street:", self.streetField)
+        layout.addRow("City:", self.cityField)
+        layout.addRow("Phone:", self.phoneField)
         layout.addRow("Email:", self.emailField)
         self.layout.addLayout(layout)
 
@@ -143,7 +155,7 @@ class AddDialog(QDialog):
     def accept(self):
         """Accept the data provided through the dialog"""
         self.data = []
-        for field in (self.nameField, self.jobField, self.emailField):
+        for field in (self.nameField, self.streetField, self.cityField, self.phoneField, self.emailField):
             if not field.text():
                 QMessageBox.critical(
                     self,

@@ -10,6 +10,8 @@ Created on Sat May 14 16:45:54 2022
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 
+
+
 def _createContactsTable():
     """Create the contacts table in the database"""
     createTableQuery = QSqlQuery()

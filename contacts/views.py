@@ -26,6 +26,8 @@ from PyQt5.QtWidgets import (
 
 from .model import ContactsModel
 
+
+
 class Window(QMainWindow):
     """Main Window"""
     def __init__(self, parent=None):       

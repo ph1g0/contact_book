@@ -10,6 +10,8 @@ Created on Sat May 14 17:15:57 2022
 from PyQt5.QtCore import Qt
 from PyQt5.QtSql import QSqlTableModel
 
+
+
 class ContactsModel:
     def __init__(self):
         self.model = self._createModel()

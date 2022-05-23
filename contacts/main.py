@@ -15,6 +15,8 @@ from PyQt5.QtWidgets import QApplication
 from .database import createConnection
 from .views import Window
 
+
+
 def main():
     """Contacts main function"""
     # Create the application

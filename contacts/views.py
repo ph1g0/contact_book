@@ -57,6 +57,9 @@ class Window(QMainWindow):
         self.deleteButton = QPushButton("Delete")
         self.deleteButton.clicked.connect(self.deleteContact)
         
+        self.exportToPdfButton = QPushButton("Export to PDF")
+        self.exportToPdfButton.clicked.connect(self.exportToPdf)
+        
         self.clearAllButton = QPushButton("Clear All")
         self.clearAllButton.clicked.connect(self.clearContacts)
 
@@ -64,6 +67,7 @@ class Window(QMainWindow):
         layout = QVBoxLayout()
         layout.addWidget(self.addButton)
         layout.addWidget(self.deleteButton)
+        layout.addWidget(self.exportToPdfButton)
         layout.addStretch()
         layout.addWidget(self.clearAllButton)
         self.layout.addWidget(self.table)
@@ -91,6 +95,22 @@ class Window(QMainWindow):
 
         if messageBox == QMessageBox.Ok:
             self.contactsModel.deleteContact(row)
+            
+    def exportToPdf(self):
+        """Export selected contact information to PDF form field"""
+        row = self.table.currentIndex().row()
+        if row < 0:
+            return
+        
+        messageBox = QMessageBox.information(
+            self,
+            "Information!",
+            "This exports the selected contact to the first form field of a PDF",
+            QMessageBox.Ok | QMessageBox.Cancel,
+        )
+
+        if messageBox == QMessageBox.Ok:
+            self.contactsModel.exportToPdf(row)
             
     def clearContacts(self):
         """Remove all contacts from the database"""

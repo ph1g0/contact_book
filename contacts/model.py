@@ -47,6 +47,9 @@ class ContactsModel:
         self.model.submitAll()
         self.model.select()
 
+    def exportToPdf(self, row):
+        """Export contact information to PDF form field"""
+        rowdata = self.model.record(row)
 
     def clearContacts(self):
         """Remove all contacts in the database"""

@@ -9,6 +9,7 @@ Created on Sat May 14 17:15:57 2022
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtSql import QSqlTableModel
+from pdf.modify_pdf import fill_pdf
 
 
 
@@ -49,7 +50,25 @@ class ContactsModel:
 
     def exportToPdf(self, row):
         """Export contact information to PDF form field"""
-        rowdata = self.model.record(row)
+        # Create empty lists to store all the column headers and column content
+        row_data_dict = {}
+        column_header_list = []
+        column_content_list = []
+        
+        # Go through the columns of the selected row of the contact table 
+        # and save the column headers and content in lists
+        for column in range (self.model.columnCount()):
+            column_header = self.model.headerData(column, Qt.Horizontal)
+            column_header_list.append(column_header)
+            
+            column_content = self.model.record(row).value(column)
+            column_content_list.append(column_content)
+            
+            # Merge the two lists together into a dictionary
+            row_data_dict[column_header_list[column]] = column_content_list[column]
+
+        # Call function to fill out PDF forms
+        fill_pdf(row_data_dict)
 
     def clearContacts(self):
         """Remove all contacts in the database"""

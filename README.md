@@ -26,7 +26,7 @@ To run RP Contacts, you need to download the source code. Then open a terminal o
   (venv) $ python contacts.py
   ```
   
-Note: This application was coded and tested using Python 3.8.5 and PyQt 5.15.2.
+Note: This application was coded and tested using Python 3.9.12, PyQt 5.9.2 and pdfrw 0.4.
 
 # Release History
  - 0.1.0 A work in progress (Example from Real Python) -> https://realpython.com/python-contact-book/  

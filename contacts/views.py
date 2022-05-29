@@ -178,14 +178,15 @@ class AddDialog(QDialog):
         """Accept the data provided through the dialog"""
         self.data = []
         for field in (self.nameField, self.streetField, self.cityField, self.phoneField, self.emailField):
-            if not field.text():
-                QMessageBox.critical(
-                    self,
-                    "Error!",
-                    f"You must provide a contact's {field.objectName()}",
-                )
-                self.data = None  # Reset .data
-                return
+            # This code is to check if all the fields have been filled out 
+            # if not field.text():
+            #     QMessageBox.critical(
+            #         self,
+            #         "Error!",
+            #         f"You must provide a contact's {field.objectName()}",
+            #     )
+            #     self.data = None  # Reset .data
+            #     return
 
             self.data.append(field.text())
 

@@ -1,7 +1,10 @@
 # contact_book
-Goal of this project:
-- local database for customers
-- export customer data to pdf or word
+SQLlite database for storing contact data and exporting contact data to PDF form fields.   
+The PDF form fields have to have the same name as the columns in the database. 
+![grafik](https://user-images.githubusercontent.com/105172511/170858044-dc8e4595-e918-4d9e-a11f-7c05b654810f.png)
+
+Export to PDF:
+![grafik](https://user-images.githubusercontent.com/105172511/170858114-449cc0f4-53d7-40cb-a46d-eb8cd63a422d.png)
 
 # Running the Application
 To run RP Contacts, you need to download the source code. Then open a terminal or command-line window and run the following steps:
@@ -27,7 +30,8 @@ Note: This application was coded and tested using Python 3.8.5 and PyQt 5.15.2.
 
 # Release History
  - 0.1.0 A work in progress (Example from Real Python) -> https://realpython.com/python-contact-book/  
- - 0.1.1 Added new colums for contact information and resized window
+ - 0.2.0 Added new colums for contact information and resized window
+ - 1.0.0 Export to PDF form fields implemented
 
 # About the Author
 ph1g0

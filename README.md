@@ -7,7 +7,7 @@ Export to PDF:
 ![grafik](https://user-images.githubusercontent.com/105172511/170858114-449cc0f4-53d7-40cb-a46d-eb8cd63a422d.png)
 
 # Running the Application
-To run RP Contacts, you need to download the source code. Then open a terminal or command-line window and run the following steps:
+To run Contacts, you need to download the source code. Then open a terminal or command-line window and run the following steps:
 1. Create and activate a Python virtual environment  
   ```
   $ cd contacts/

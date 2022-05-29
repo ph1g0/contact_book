@@ -34,7 +34,7 @@ class Window(QMainWindow):
         """Initializer"""
         super().__init__(parent)
         self.setWindowTitle("Contacts")
-        self.resize(1000, 800)
+        self.resize(1400, 800)
         self.centralWidget = QWidget()
         self.setCentralWidget(self.centralWidget)
         self.layout = QHBoxLayout()
@@ -57,8 +57,11 @@ class Window(QMainWindow):
         self.deleteButton = QPushButton("Delete")
         self.deleteButton.clicked.connect(self.deleteContact)
         
-        self.exportToPdfButton = QPushButton("Export to PDF")
-        self.exportToPdfButton.clicked.connect(self.exportToPdf)
+        self.billingAddressToPdfButton = QPushButton("Billing Address to PDF")
+        self.billingAddressToPdfButton.clicked.connect(self.billingAddressToPdf)
+        
+        self.objectAddressToPdfButton = QPushButton("Object Address to PDF")
+        self.objectAddressToPdfButton.clicked.connect(self.objectAddressToPdf)
         
         self.clearAllButton = QPushButton("Clear All")
         self.clearAllButton.clicked.connect(self.clearContacts)
@@ -67,7 +70,8 @@ class Window(QMainWindow):
         layout = QVBoxLayout()
         layout.addWidget(self.addButton)
         layout.addWidget(self.deleteButton)
-        layout.addWidget(self.exportToPdfButton)
+        layout.addWidget(self.billingAddressToPdfButton)
+        layout.addWidget(self.objectAddressToPdfButton)
         layout.addStretch()
         layout.addWidget(self.clearAllButton)
         self.layout.addWidget(self.table)
@@ -96,8 +100,8 @@ class Window(QMainWindow):
         if messageBox == QMessageBox.Ok:
             self.contactsModel.deleteContact(row)
             
-    def exportToPdf(self):
-        """Export selected contact information to PDF form field"""
+    def billingAddressToPdf(self):
+        """Export selected contact information to PDF billing address form fields"""
         row = self.table.currentIndex().row()
         if row < 0:
             return
@@ -105,12 +109,36 @@ class Window(QMainWindow):
         messageBox = QMessageBox.information(
             self,
             "Information!",
-            "This exports the selected contact to the first form field of a PDF",
+            "This exports the selected contact to PDF.\n"
+            "This should be used to export the billing address of the contact.\n"
+            "The PDF should have form fields with the same name "  
+            "as the column headers of the database.\n"
+            "For example: 'Name'",
             QMessageBox.Ok | QMessageBox.Cancel,
         )
 
         if messageBox == QMessageBox.Ok:
-            self.contactsModel.exportToPdf(row)
+            self.contactsModel.billingAddressToPdf(row)
+            
+    def objectAddressToPdf(self):
+        """Export selected contact information to PDF object address form fields"""
+        row = self.table.currentIndex().row()
+        if row < 0:
+            return
+        
+        messageBox = QMessageBox.information(
+            self,
+            "Information!",
+            "This exports the selected contact to PDF.\n"
+            "This should be used to export the object address of the contact.\n"
+            "The PDF should have form fields with the same name "  
+            "as the column headers of the database but with the prefix 'Object'.\n"
+            "For example: 'Object Name'",
+            QMessageBox.Ok | QMessageBox.Cancel,
+        )
+
+        if messageBox == QMessageBox.Ok:
+            self.contactsModel.objectAddressToPdf(row)
             
     def clearContacts(self):
         """Remove all contacts from the database"""

@@ -7,12 +7,14 @@ Created on Wed May 11 17:14:04 2022
 
 """This module provides views to manage the contacts table"""
 
-from PyQt5.QtCore import Qt
+from pathlib import Path
 
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (
     QAbstractItemView,
     QDialog,
     QDialogButtonBox,
+    QFileDialog,
     QFormLayout,
     QHBoxLayout,
     QLineEdit,
@@ -118,7 +120,11 @@ class Window(QMainWindow):
         )
 
         if messageBox == QMessageBox.Ok:
-            self.contactsModel.billingAddressToPdf(row)
+            # Select input PDF file
+            input_pdf = self.fileDialog()
+            
+            # Call billingAddressToPdf function 
+            self.contactsModel.billingAddressToPdf(row, input_pdf[0])
             
     def objectAddressToPdf(self):
         """Export selected contact information to PDF object address form fields"""
@@ -138,7 +144,11 @@ class Window(QMainWindow):
         )
 
         if messageBox == QMessageBox.Ok:
-            self.contactsModel.objectAddressToPdf(row)
+            # Select input PDF file
+            input_pdf = self.fileDialog()
+            
+            # Call objectAddressToPdf function 
+            self.contactsModel.objectAddressToPdf(row, input_pdf[0])
             
     def clearContacts(self):
         """Remove all contacts from the database"""
@@ -151,6 +161,12 @@ class Window(QMainWindow):
 
         if messageBox == QMessageBox.Ok:
             self.contactsModel.clearContacts()
+            
+    def fileDialog(self):
+        home_dir = str(Path.home())
+        input_pdf = QFileDialog.getOpenFileName(self, 'Open file', home_dir)
+        
+        return input_pdf
 
         
 class AddDialog(QDialog):

@@ -48,7 +48,7 @@ class ContactsModel:
         self.model.submitAll()
         self.model.select()
 
-    def billingAddressToPdf(self, row):
+    def billingAddressToPdf(self, row, input_pdf):
         """Export selected contact information to PDF billing address form fields"""
         # Create empty lists to store all the column headers and column content
         # and create a dictionary, where the two are merged together
@@ -69,9 +69,9 @@ class ContactsModel:
             row_data_dict[column_header_list[column]] = column_content_list[column]
 
         # Call function to fill out PDF forms
-        fill_pdf(row_data_dict)
+        fill_pdf(row_data_dict, input_pdf)
         
-    def objectAddressToPdf(self, row):
+    def objectAddressToPdf(self, row, input_pdf):
         """Export selected contact information to PDF object address form fields"""
         # Create empty lists to store all the column headers and column content
         # and create a dictionary, where the two are merged together
@@ -96,7 +96,7 @@ class ContactsModel:
             row_data_dict[column_header_list[column]] = column_content_list[column]
 
         # Call function to fill out PDF forms
-        fill_pdf(row_data_dict)
+        fill_pdf(row_data_dict, input_pdf)
 
     def clearContacts(self):
         """Remove all contacts in the database"""

@@ -10,3 +10,4 @@ contacts.sqlite
 *.pyc
 output.pdf
 test_form.odt
+contacts.sqlite

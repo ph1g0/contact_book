@@ -9,7 +9,7 @@ Created on Wed May 11 17:14:04 2022
 
 from pathlib import Path
 
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSortFilterProxyModel
 from PyQt5.QtWidgets import (
     QAbstractItemView,
     QDialog,
@@ -42,6 +42,7 @@ class Window(QMainWindow):
         self.layout = QHBoxLayout()
         self.centralWidget.setLayout(self.layout)
         self.contactsModel = ContactsModel()
+        
         self.setupUI()
 
     def setupUI(self):
@@ -51,6 +52,17 @@ class Window(QMainWindow):
         self.table.setModel(self.contactsModel.model)
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.table.resizeColumnsToContents()
+        
+        # Setup Proxy Model
+        self.proxy_model = QSortFilterProxyModel()
+        self.proxy_model.setFilterKeyColumn(-1) # Search all columns.
+        self.proxy_model.setSourceModel(self.contactsModel.model)
+        self.proxy_model.sort(0, Qt.AscendingOrder)
+        self.table.setModel(self.proxy_model)
+        
+        # Create search bar
+        self.searchbar = QLineEdit()
+        self.searchbar.textChanged.connect(self.proxy_model.setFilterFixedString)
 
         # Create buttons
         self.addButton = QPushButton("Add...")
@@ -70,12 +82,20 @@ class Window(QMainWindow):
 
         # Lay out the GUI
         layout = QVBoxLayout()
+        
+        layout.addWidget(self.searchbar)
+        self.searchbar.setPlaceholderText("Search...")
+        self.searchbar.setFixedWidth(200)
+        
         layout.addWidget(self.addButton)
         layout.addWidget(self.deleteButton)
         layout.addWidget(self.billingAddressToPdfButton)
         layout.addWidget(self.objectAddressToPdfButton)
+        
         layout.addStretch()
+        
         layout.addWidget(self.clearAllButton)
+        
         self.layout.addWidget(self.table)
         self.layout.addLayout(layout)
         

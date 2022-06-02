@@ -7,12 +7,14 @@ Created on Wed May 11 17:14:04 2022
 
 """This module provides views to manage the contacts table"""
 
-from PyQt5.QtCore import Qt
+from pathlib import Path
 
+from PyQt5.QtCore import Qt, QSortFilterProxyModel
 from PyQt5.QtWidgets import (
     QAbstractItemView,
     QDialog,
     QDialogButtonBox,
+    QFileDialog,
     QFormLayout,
     QHBoxLayout,
     QLineEdit,
@@ -34,12 +36,13 @@ class Window(QMainWindow):
         """Initializer"""
         super().__init__(parent)
         self.setWindowTitle("Contacts")
-        self.resize(1000, 800)
+        self.resize(1400, 800)
         self.centralWidget = QWidget()
         self.setCentralWidget(self.centralWidget)
         self.layout = QHBoxLayout()
         self.centralWidget.setLayout(self.layout)
         self.contactsModel = ContactsModel()
+        
         self.setupUI()
 
     def setupUI(self):
@@ -49,6 +52,17 @@ class Window(QMainWindow):
         self.table.setModel(self.contactsModel.model)
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.table.resizeColumnsToContents()
+        
+        # Setup Proxy Model
+        self.proxy_model = QSortFilterProxyModel()
+        self.proxy_model.setFilterKeyColumn(-1) # Search all columns.
+        self.proxy_model.setSourceModel(self.contactsModel.model)
+        self.proxy_model.sort(0, Qt.AscendingOrder)
+        self.table.setModel(self.proxy_model)
+        
+        # Create search bar
+        self.searchbar = QLineEdit()
+        self.searchbar.textChanged.connect(self.proxy_model.setFilterFixedString)
 
         # Create buttons
         self.addButton = QPushButton("Add...")
@@ -57,19 +71,31 @@ class Window(QMainWindow):
         self.deleteButton = QPushButton("Delete")
         self.deleteButton.clicked.connect(self.deleteContact)
         
-        self.exportToPdfButton = QPushButton("Export to PDF")
-        self.exportToPdfButton.clicked.connect(self.exportToPdf)
+        self.billingAddressToPdfButton = QPushButton("Billing Address to PDF")
+        self.billingAddressToPdfButton.clicked.connect(self.billingAddressToPdf)
+        
+        self.objectAddressToPdfButton = QPushButton("Object Address to PDF")
+        self.objectAddressToPdfButton.clicked.connect(self.objectAddressToPdf)
         
         self.clearAllButton = QPushButton("Clear All")
         self.clearAllButton.clicked.connect(self.clearContacts)
 
         # Lay out the GUI
         layout = QVBoxLayout()
+        
+        layout.addWidget(self.searchbar)
+        self.searchbar.setPlaceholderText("Search...")
+        self.searchbar.setFixedWidth(200)
+        
         layout.addWidget(self.addButton)
         layout.addWidget(self.deleteButton)
-        layout.addWidget(self.exportToPdfButton)
+        layout.addWidget(self.billingAddressToPdfButton)
+        layout.addWidget(self.objectAddressToPdfButton)
+        
         layout.addStretch()
+        
         layout.addWidget(self.clearAllButton)
+        
         self.layout.addWidget(self.table)
         self.layout.addLayout(layout)
         
@@ -96,8 +122,8 @@ class Window(QMainWindow):
         if messageBox == QMessageBox.Ok:
             self.contactsModel.deleteContact(row)
             
-    def exportToPdf(self):
-        """Export selected contact information to PDF form field"""
+    def billingAddressToPdf(self):
+        """Export selected contact information to PDF billing address form fields"""
         row = self.table.currentIndex().row()
         if row < 0:
             return
@@ -105,12 +131,44 @@ class Window(QMainWindow):
         messageBox = QMessageBox.information(
             self,
             "Information!",
-            "This exports the selected contact to the first form field of a PDF",
+            "This exports the selected contact to PDF.\n"
+            "This should be used to export the billing address of the contact.\n"
+            "The PDF should have form fields with the same name "  
+            "as the column headers of the database.\n"
+            "For example: 'Name'",
             QMessageBox.Ok | QMessageBox.Cancel,
         )
 
         if messageBox == QMessageBox.Ok:
-            self.contactsModel.exportToPdf(row)
+            # Select input PDF file
+            input_pdf = self.fileDialog()
+            
+            # Call billingAddressToPdf function 
+            self.contactsModel.billingAddressToPdf(row, input_pdf[0])
+            
+    def objectAddressToPdf(self):
+        """Export selected contact information to PDF object address form fields"""
+        row = self.table.currentIndex().row()
+        if row < 0:
+            return
+        
+        messageBox = QMessageBox.information(
+            self,
+            "Information!",
+            "This exports the selected contact to PDF.\n"
+            "This should be used to export the object address of the contact.\n"
+            "The PDF should have form fields with the same name "  
+            "as the column headers of the database but with the prefix 'Object'.\n"
+            "For example: 'Object Name'",
+            QMessageBox.Ok | QMessageBox.Cancel,
+        )
+
+        if messageBox == QMessageBox.Ok:
+            # Select input PDF file
+            input_pdf = self.fileDialog()
+            
+            # Call objectAddressToPdf function 
+            self.contactsModel.objectAddressToPdf(row, input_pdf[0])
             
     def clearContacts(self):
         """Remove all contacts from the database"""
@@ -123,6 +181,12 @@ class Window(QMainWindow):
 
         if messageBox == QMessageBox.Ok:
             self.contactsModel.clearContacts()
+            
+    def fileDialog(self):
+        home_dir = str(Path.home())
+        input_pdf = QFileDialog.getOpenFileName(self, 'Open file', home_dir)
+        
+        return input_pdf
 
         
 class AddDialog(QDialog):

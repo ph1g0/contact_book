@@ -21,12 +21,11 @@ WIDGET_SUBTYPE_KEY = '/Widget'
 
 
 
-def fill_pdf(data_dict):
+def fill_pdf(data_dict, input_pdf):
     """
     Identify form fields in input PDF, fill out with data_dict
     and generate output PDF
     """
-    input_pdf = "test_form.pdf"
     output_pdf = "output.pdf"
     
     # Read PDF and save it in template_pdf

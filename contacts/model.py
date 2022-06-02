@@ -48,9 +48,10 @@ class ContactsModel:
         self.model.submitAll()
         self.model.select()
 
-    def exportToPdf(self, row):
-        """Export contact information to PDF form field"""
+    def billingAddressToPdf(self, row, input_pdf):
+        """Export selected contact information to PDF billing address form fields"""
         # Create empty lists to store all the column headers and column content
+        # and create a dictionary, where the two are merged together
         row_data_dict = {}
         column_header_list = []
         column_content_list = []
@@ -68,7 +69,34 @@ class ContactsModel:
             row_data_dict[column_header_list[column]] = column_content_list[column]
 
         # Call function to fill out PDF forms
-        fill_pdf(row_data_dict)
+        fill_pdf(row_data_dict, input_pdf)
+        
+    def objectAddressToPdf(self, row, input_pdf):
+        """Export selected contact information to PDF object address form fields"""
+        # Create empty lists to store all the column headers and column content
+        # and create a dictionary, where the two are merged together
+        row_data_dict = {}
+        column_header_list = []
+        column_content_list = []
+        
+        # Initialize the prefix variable for the object addresses
+        prefix_var = "Object "
+        
+        # Go through the columns of the selected row of the contact table 
+        # and save "Object" prefix + column headers and content in lists
+        for column in range (self.model.columnCount()):
+            column_header = self.model.headerData(column, Qt.Horizontal)
+            column_header = prefix_var + column_header
+            column_header_list.append(column_header)
+            
+            column_content = self.model.record(row).value(column)
+            column_content_list.append(column_content)
+            
+            # Merge the two lists together into a dictionary
+            row_data_dict[column_header_list[column]] = column_content_list[column]
+
+        # Call function to fill out PDF forms
+        fill_pdf(row_data_dict, input_pdf)
 
     def clearContacts(self):
         """Remove all contacts in the database"""

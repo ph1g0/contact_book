@@ -19,7 +19,8 @@ def _createContactsTable():
         """
         CREATE TABLE IF NOT EXISTS contacts (
             id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
-            name VARCHAR(50) NOT NULL,
+            name1 VARCHAR(50) NOT NULL,
+            name2 VARCHAR(50) NOT NULL,
             street VARCHAR(50) NOT NULL,
             city VARCHAR(50) NOT NULL,
             phone VARCHAR(50) NOT NULL,

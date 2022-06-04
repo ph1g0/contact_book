@@ -36,7 +36,7 @@ class Window(QMainWindow):
         """Initializer"""
         super().__init__(parent)
         self.setWindowTitle("Contacts")
-        self.resize(1400, 800)
+        self.resize(1600, 800)
         self.centralWidget = QWidget()
         self.setCentralWidget(self.centralWidget)
         self.layout = QHBoxLayout()
@@ -108,7 +108,9 @@ class Window(QMainWindow):
     
     def deleteContact(self):
         """Delete the selected contact from the database"""
-        row = self.table.currentIndex().row()
+        # Get the row of the selected contact
+        # mapToSource() maps the selected contact index back to the orignal model
+        row = self.proxy_model.mapToSource(self.table.currentIndex()).row()
         if row < 0:
             return
 
@@ -124,7 +126,9 @@ class Window(QMainWindow):
             
     def billingAddressToPdf(self):
         """Export selected contact information to PDF billing address form fields"""
-        row = self.table.currentIndex().row()
+        # Get the row of the selected contact
+        # mapToSource() maps the selected contact index back to the orignal model
+        row = self.proxy_model.mapToSource(self.table.currentIndex()).row()
         if row < 0:
             return
         
@@ -135,7 +139,7 @@ class Window(QMainWindow):
             "This should be used to export the billing address of the contact.\n"
             "The PDF should have form fields with the same name "  
             "as the column headers of the database.\n"
-            "For example: 'Name'",
+            "For example: 'Name1'",
             QMessageBox.Ok | QMessageBox.Cancel,
         )
 
@@ -148,7 +152,9 @@ class Window(QMainWindow):
             
     def objectAddressToPdf(self):
         """Export selected contact information to PDF object address form fields"""
-        row = self.table.currentIndex().row()
+        # Get the row of the selected contact
+        # mapToSource() maps the selected contact index back to the orignal model
+        row = self.proxy_model.mapToSource(self.table.currentIndex()).row()
         if row < 0:
             return
         
@@ -159,7 +165,7 @@ class Window(QMainWindow):
             "This should be used to export the object address of the contact.\n"
             "The PDF should have form fields with the same name "  
             "as the column headers of the database but with the prefix 'Object'.\n"
-            "For example: 'Object Name'",
+            "For example: 'Object Name1'",
             QMessageBox.Ok | QMessageBox.Cancel,
         )
 
@@ -204,8 +210,11 @@ class AddDialog(QDialog):
     def setupUI(self):
         """Setup the Add Contact dialog's GUI"""
         # Create line edits for data fields
-        self.nameField = QLineEdit()
-        self.nameField.setObjectName("Name")
+        self.name1Field = QLineEdit()
+        self.name1Field.setObjectName("Name1")
+        
+        self.name2Field = QLineEdit()
+        self.name2Field.setObjectName("Name2")
         
         self.streetField = QLineEdit()
         self.streetField.setObjectName("Street")
@@ -221,7 +230,8 @@ class AddDialog(QDialog):
 
         # Lay out the data fields
         layout = QFormLayout()
-        layout.addRow("Name:", self.nameField)
+        layout.addRow("Name1:", self.name1Field)
+        layout.addRow("Name2:", self.name2Field)
         layout.addRow("Street:", self.streetField)
         layout.addRow("City:", self.cityField)
         layout.addRow("Phone:", self.phoneField)
@@ -241,17 +251,13 @@ class AddDialog(QDialog):
     def accept(self):
         """Accept the data provided through the dialog"""
         self.data = []
-        for field in (self.nameField, self.streetField, self.cityField, self.phoneField, self.emailField):
-            # This code is to check if all the fields have been filled out 
-            # if not field.text():
-            #     QMessageBox.critical(
-            #         self,
-            #         "Error!",
-            #         f"You must provide a contact's {field.objectName()}",
-            #     )
-            #     self.data = None  # Reset .data
-            #     return
-
+        for field in (
+                self.name1Field, 
+                self.name2Field, 
+                self.streetField, 
+                self.cityField, 
+                self.phoneField, 
+                self.emailField):
             self.data.append(field.text())
 
         if not self.data:

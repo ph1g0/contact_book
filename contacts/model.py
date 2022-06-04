@@ -24,7 +24,7 @@ class ContactsModel:
         tableModel.setTable("contacts")
         tableModel.setEditStrategy(QSqlTableModel.OnFieldChange)
         tableModel.select()
-        headers = ("ID", "Name", "Street", "City", "Phone", "Email")
+        headers = ("ID", "Name1", "Name2","Street", "City", "Phone", "Email")
 
         for columnIndex, header in enumerate(headers):
             tableModel.setHeaderData(columnIndex, Qt.Horizontal, header)

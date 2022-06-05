@@ -2,7 +2,7 @@
 """
 Created on Sat May 14 17:15:57 2022
 
-@author: phigo
+@author: ph1g0
 """
 
 """This module provides a model to manage the contacts table"""

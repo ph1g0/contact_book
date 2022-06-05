@@ -2,7 +2,7 @@
 """
 Created on Sat May 14 16:45:54 2022
 
-@author: phigo
+@author: ph1g0
 """
 
 """This module provides a database connection"""

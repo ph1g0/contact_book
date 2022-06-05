@@ -2,7 +2,7 @@
 """
 Created on Wed May 11 17:14:04 2022
 
-@author: phigo
+@author: ph1g0
 """
 
 """This module provides views to manage the contacts table"""
@@ -52,6 +52,8 @@ class Window(QMainWindow):
         self.table.setModel(self.contactsModel.model)
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.table.resizeColumnsToContents()
+        self.table.setSortingEnabled(True)
+        self.table.sortByColumn(0, Qt.AscendingOrder)
         
         # Setup Proxy Model
         self.proxy_model = QSortFilterProxyModel()

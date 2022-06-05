@@ -2,7 +2,7 @@
 """
 Created on Wed May 11 17:29:25 2022
 
-@author: phigo
+@author: ph1g0
 """
 
 """This module provides Contacts entry point script"""

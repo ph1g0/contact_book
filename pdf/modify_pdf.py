@@ -2,7 +2,7 @@
 """
 Created on Mon May 23 18:36:37 2022
 
-@author: phigo
+@author: ph1g0
 """
 
 """This module deals with accessing and modifying PDFs"""

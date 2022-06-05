@@ -3,7 +3,7 @@
 """
 Created on Wed May 11 17:24:15 2022
 
-@author: phigo
+@author: ph1g0
 """
 
 """This module provides Contacts application"""

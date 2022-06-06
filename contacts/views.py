@@ -54,6 +54,7 @@ class Window(QMainWindow):
         self.table.resizeColumnsToContents()
         self.table.setSortingEnabled(True)
         self.table.sortByColumn(0, Qt.AscendingOrder)
+        self.table.verticalHeader().setVisible(False)
         
         # Setup Proxy Model
         self.proxy_model = QSortFilterProxyModel()

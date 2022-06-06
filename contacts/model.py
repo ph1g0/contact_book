@@ -9,7 +9,8 @@ Created on Sat May 14 17:15:57 2022
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtSql import QSqlTableModel
-from pdf.modify_pdf import fill_pdf
+from ext.modify_pdf import fillPdf
+from ext.offer_number import readOfferNumber, updateOfferNumber, storeOfferNumber
 
 
 
@@ -67,9 +68,14 @@ class ContactsModel:
             
             # Merge the two lists together into a dictionary
             row_data_dict[column_header_list[column]] = column_content_list[column]
+            
+        # Add offer number to the row data dictionary
+        offer_number = readOfferNumber()
+        updateOfferNumber()
+        row_data_dict["Offer"] = offer_number
 
         # Call function to fill out PDF forms
-        fill_pdf(row_data_dict, input_pdf)
+        fillPdf(row_data_dict, input_pdf)
         
     def objectAddressToPdf(self, row, input_pdf):
         """Export selected contact information to PDF object address form fields"""
@@ -96,7 +102,7 @@ class ContactsModel:
             row_data_dict[column_header_list[column]] = column_content_list[column]
 
         # Call function to fill out PDF forms
-        fill_pdf(row_data_dict, input_pdf)
+        fillPdf(row_data_dict, input_pdf)
 
     def clearContacts(self):
         """Remove all contacts in the database"""

@@ -10,7 +10,7 @@ Created on Sat May 14 17:15:57 2022
 from PyQt5.QtCore import Qt
 from PyQt5.QtSql import QSqlTableModel
 from ext.modify_pdf import fillPdf
-from ext.offer_number import readOfferNumber, updateOfferNumber, storeOfferNumber
+from ext.offer_number import readOfferNumber, updateOfferNumber
 
 
 

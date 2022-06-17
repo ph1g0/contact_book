@@ -17,6 +17,7 @@ from PyQt5.QtWidgets import (
     QFileDialog,
     QFormLayout,
     QHBoxLayout,
+    QLabel,
     QLineEdit,
     QMainWindow,
     QMessageBox,
@@ -27,6 +28,8 @@ from PyQt5.QtWidgets import (
 )
 
 from .model import ContactsModel
+
+from ext.offer_number import readOfferNumber
 
 
 
@@ -66,6 +69,15 @@ class Window(QMainWindow):
         # Create search bar
         self.searchbar = QLineEdit()
         self.searchbar.textChanged.connect(self.proxy_model.setFilterFixedString)
+        
+        # Create label for offer number
+        offer_number = readOfferNumber()
+        self.offerNumber = QLabel()
+        self.offerNumber.setText("Offer: %s" %offer_number)
+        self.offerNumber.setToolTip(
+            "To change the offer number, open offer_number.txt\n"
+            "Offer number is only updated after restart of the application."
+            )
 
         # Create buttons
         self.addButton = QPushButton("Add...")
@@ -82,7 +94,7 @@ class Window(QMainWindow):
         
         self.clearAllButton = QPushButton("Clear All")
         self.clearAllButton.clicked.connect(self.clearContacts)
-
+        
         # Lay out the GUI
         layout = QVBoxLayout()
         
@@ -90,6 +102,7 @@ class Window(QMainWindow):
         self.searchbar.setPlaceholderText("Search...")
         self.searchbar.setFixedWidth(200)
         
+        layout.addWidget(self.offerNumber)
         layout.addWidget(self.addButton)
         layout.addWidget(self.deleteButton)
         layout.addWidget(self.billingAddressToPdfButton)
@@ -140,6 +153,7 @@ class Window(QMainWindow):
             "Information!",
             "This exports the selected contact to PDF.\n"
             "This should be used to export the billing address of the contact.\n"
+            "It also adds the offer number to the PDF (form field 'Offer').\n"
             "The PDF should have form fields with the same name "  
             "as the column headers of the database.\n"
             "For example: 'Name1'",
@@ -152,6 +166,10 @@ class Window(QMainWindow):
             
             # Call billingAddressToPdf function 
             self.contactsModel.billingAddressToPdf(row, input_pdf[0])
+            
+        # Update offer number label
+        offer_number = readOfferNumber()
+        self.offerNumber.setText("Offer: %s" %offer_number)
             
     def objectAddressToPdf(self):
         """Export selected contact information to PDF object address form fields"""

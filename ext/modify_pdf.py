@@ -21,7 +21,7 @@ WIDGET_SUBTYPE_KEY = '/Widget'
 
 
 
-def fill_pdf(data_dict, input_pdf):
+def fillPdf(data_dict, input_pdf):
     """
     Identify form fields in input PDF, fill out with data_dict
     and generate output PDF
@@ -45,12 +45,13 @@ def fill_pdf(data_dict, input_pdf):
                             if data_dict[key] == True:
                                 annotation.update(pdfrw.PdfDict(
                                     AS=pdfrw.PdfName('Yes')))
+                        
                         else:
                             annotation.update(
                                 pdfrw.PdfDict(V='{}'.format(data_dict[key]))
                             )
                             annotation.update(pdfrw.PdfDict(AP=''))
-                            
+    
     # The following code is necessary to show the values in the form fields
     template_pdf.Root.AcroForm.update(pdfrw.PdfDict(NeedAppearances=pdfrw.PdfObject('true')))
     pdfrw.PdfWriter().write(output_pdf, template_pdf)

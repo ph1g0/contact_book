@@ -13,7 +13,7 @@ To run Contacts, you need to download the source code. Then open a terminal or c
   ```
   $ cd contacts/
   $ python -m venv ./venv
-  $ venv/bin/activate
+  $ venv\Scripts\activate.bat
   ```
 
 2. Install the dependencies  

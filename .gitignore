@@ -1,4 +1,4 @@
-
+venv_contact_book
 contacts.sqlite
 contacts/__pycache__/__init__.cpython-39.pyc
 contacts/__pycache__/database.cpython-39.pyc
@@ -11,3 +11,4 @@ contacts.sqlite
 output.pdf
 test_form.odt
 contacts.sqlite
+run.bat
